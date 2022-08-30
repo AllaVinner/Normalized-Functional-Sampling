@@ -5,6 +5,16 @@ from abc import ABC, abstractmethod
 
 class Geometric(ABC):
 
+    @property
+    @abstractmethod
+    def dimension(self)->int:
+        pass
+
+    @property
+    @abstractmethod
+    def enclosing_dimension(self)->int:
+        pass
+
     @abstractmethod
     def __call__(self, t, *args, **kwargs):
         pass
@@ -22,5 +32,12 @@ class Spiral(Geometric):
         y = t*np.sin(t*angle)
         return np.stack([x,y], axis=-1)   
 
+    @property
+    def dimension(self) -> int:
+        return 1
+    
+    @property
+    def enclosing_dimension(self) -> int:
+        return 2
     
 
