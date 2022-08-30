@@ -27,7 +27,7 @@ class Spiral(Geometric):
         self.angular_frequency = angular_frequency
 
     def __call__(self, t, *args, **kwargs):
-        angle = self.angular_freq + self.initial_angle
+        angle = self.angular_frequency + self.initial_angle
         x = t*np.cos(t*angle)
         y = t*np.sin(t*angle)
         return np.stack([x,y], axis=-1)   
