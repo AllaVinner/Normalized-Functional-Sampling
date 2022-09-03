@@ -1,25 +1,10 @@
-from abc import ABC, abstractmethod
-from dis import dis
+import numpy as np
+from sklearn.preprocessing import normalize
 
-
-class Distortion(ABC):
-
-    def __call__(self, *args, **kwargs):
-        pass
-
-
-class ConstantRadialDistortion(Distortion):
-
-    def __init__(self, distortion_scale:float, distortion_shape):
-        self.distortion_scale = distortion_scale
-        self.distortion_shape = distortion_shape
-        self.distortion_dim = len(distortion_shape)
-    
-
-    def __call__(self, samples, *args, **kwargs):
-        samples_shape = samples.shape[-self.distortion_dim:]
-        assert all([samples_shape[i] == self.distortion_shape[i] for i in range(self.distortion_dim)]), 'samples have non compatible shape'
-        return super().__call__(*args, **kwargs)
+def constant_radial_distortion(samples, distortion_std:float=0.01):
+    unit_samples = normalize(samples)
+    distortions = np.random.normal(scale=distortion_std, size=len(samples))
+    return samples+np.diag(distortions)@unit_samples
 
 
 
