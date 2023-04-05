@@ -1,5 +1,5 @@
 import numpy as np
-
+from sampling_normalization.algoritms import inv_value
 
 from abc import ABC, abstractmethod
 
@@ -32,6 +32,12 @@ class Spiral(Geometric):
         x = t*np.cos(t*self.angular_frequency + self.initial_angle)
         y = t*np.sin(t*self.angular_frequency + self.initial_angle)
         return np.stack([x,y], axis=-1)   
+
+    def length(self, t):
+        return 1/2*t*np.sqrt(1+t*t)+1/2*np.log(t+np.sqrt(1+t*t))
+
+    def inv_length(self, l):
+        return inv_value(self.length, target_value = l, min_guess=0, max_guess = self.max_t)
 
     def sample(self, num_samples):
         t = self.max_t*np.random.random(num_samples)
