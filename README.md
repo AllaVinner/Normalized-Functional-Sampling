@@ -4,16 +4,15 @@
 When sampling points from a multidimensional distribution, it is often the case that one wants the points to be uniformly sampled from the multidimisional geometry body given. Howerver, the kanonical way of sampling from the body is usually not uniform. For example, sampling points from a disk can be done by drawing two points from a uniform distribution where the first points represent the radius of the the point, and the seconde the angle. The strategy ensures that all the drawn points are drawn from the disk, however, the sampling desnity will be greater in the center of the disk then in the outer parts.
 
 **Proposed Strategy** 
-$$
-\begin{aligned}
-    \text{Given a function } & f: x \mapsto y \\
-    \text{find } & g: \xi \mapsto x \\
-    \text{where } & D_g=I_g=D_f\\
-    \text{such that } & g(D)=D \\
-    \text{and } & J_{f}(x)J_{g}(\xi)|D|=|I|\\
-    \text{where functional } & J_{f}(x) := \sqrt{\bigg |\det \bigg ( \frac{\partial f}{\partial x}^T \frac{\partial f}{\partial x} \bigg ) \bigg|}  \\
-\end{aligned}
-$$
+
+1. Given a function $f: x \mapsto y $
+2. find $g: \xi \mapsto x$
+3. where $D_g=I_g=D_f$
+4. such that $g(D)=D$
+5. and $J_{f}(x)J_{g}(\xi)|D|=|I|$
+6. where functional $J_{f}(x) := \sqrt{\bigg |\det \bigg ( \frac{\partial f}{\partial x}^T \frac{\partial f}{\partial x} \bigg ) \bigg|}$
+
+
 Here, $D$ and $I$ are refering to the domain and image of the functions respectivly, and typically $D \sub \mathbb{R}^m$ and $I \sub \mathbb{R}^n$. 
 There is no unique solution as the equation only restricts the $g$ in one dimension. Hence, some assumptions or decisions will need to be made about the function $g$ to be able to solve the equation (see the example section).
 
