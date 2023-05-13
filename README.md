@@ -1,15 +1,23 @@
 # Normalized-Functional-Sampling
 
 ## Abstract 
-I often find myself in a position where I want to sample points from some exotic distribution. Most recently when I 
-wanted to play around with the spiral dataset. However, an issue I have encountered is that there is an obvious way 
-of generating points for said dataset, but this naive approach creates a none-uniform density. A simple example is 
-to sample points in a disk by uniformly sampling the radius and the angle. The generated shape might be correct, but 
-it will have more points in the center, a quality not always desirable. To address this issue, I propose an equation 
-that yields a function which maps the naive input space onto itself with a tilted density so as to generate a uniform 
-distribution in the final generated dataset.
+When sampling points from a multidimensional distribution, it is often the case that one wants the points to be uniformly sampled from the multidimisional geometry body given. Howerver, the kanonical way of sampling from the body is usually not uniform. For example, sampling points from a disk can be done by drawing two points from a uniform distribution where the first points represent the radius of the the point, and the seconde the angle. The strategy ensures that all the drawn points are drawn from the disk, however, the sampling desnity will be greater in the center of the disk then in the outer parts.
 
-I.e. given a naive generator function $f: T \rightarrow X$, find an injective mapping $z: T \rightarrow T$ that satisfy $|\frac{\partial f}{\partial z}||\frac{\partial z}{\partial t}|= \frac{|X|}{|T|}$. 
+**Proposed Strategy** 
+$$
+\begin{align*}
+    \text{Given a function } & f: x \mapsto y \\
+    \text{find } & g: \xi \mapsto x \\
+    \text{where } & D_g=I_g=D_f\\
+    \text{such that } & g(D)=D \\
+    \text{and } & J_{f}(x)J_{g}(\xi)|D|=|I|\\
+    \text{where functional } & J_{f}(x) := \sqrt{\bigg |\det \bigg ( \frac{\partial f}{\partial x}^T \frac{\partial f}{\partial x} \bigg ) \bigg|}  \\
+\end{align*}
+$$
+Here, $D$ and $I$ are refering to the domain and image of the functions respectivly, and typically $D \sub \mathbb{R}^m$ and $I \sub \mathbb{R}^n$. 
+There is no unique solution as the equation only restricts the $g$ in one dimension. Hence, some assumptions or decisions will need to be made about the function $g$ to be able to solve the equation (see the example section).
+
+The equation can be split up into two constraits. The first is a global one which simply restricts the function not to move points out of the domain: $g(D)=D$. The second one is a local restriction which states that the density change introduced by $f$ must be compensated for by $g$ at every point, so that the the combined density change equals the ratio between the domain and image volumes. 
 
 
 ## Problem Formulation
