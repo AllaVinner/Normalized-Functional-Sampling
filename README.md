@@ -5,14 +5,14 @@ When sampling points from a multidimensional distribution, it is often the case 
 
 **Proposed Strategy** 
 $$
-\begin{align*}
+\begin{aligned}
     \text{Given a function } & f: x \mapsto y \\
     \text{find } & g: \xi \mapsto x \\
     \text{where } & D_g=I_g=D_f\\
     \text{such that } & g(D)=D \\
     \text{and } & J_{f}(x)J_{g}(\xi)|D|=|I|\\
     \text{where functional } & J_{f}(x) := \sqrt{\bigg |\det \bigg ( \frac{\partial f}{\partial x}^T \frac{\partial f}{\partial x} \bigg ) \bigg|}  \\
-\end{align*}
+\end{aligned}
 $$
 Here, $D$ and $I$ are refering to the domain and image of the functions respectivly, and typically $D \sub \mathbb{R}^m$ and $I \sub \mathbb{R}^n$. 
 There is no unique solution as the equation only restricts the $g$ in one dimension. Hence, some assumptions or decisions will need to be made about the function $g$ to be able to solve the equation (see the example section).
