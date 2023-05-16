@@ -2,7 +2,7 @@
 
 
 ## Strategy 
-<img align="right" src="./media/header_image.png" width="500" style="padding-left:20px">
+<img align="right" src="./media/header_image.png" width="450" style="padding-left:20px">
 
 1. Given a function $f: x \mapsto y$
 2. find $g: x \mapsto x'$
