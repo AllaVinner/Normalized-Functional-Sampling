@@ -11,8 +11,38 @@
 5. and $J_{f}(x')J_{g}(x)|D|=|I|$
 6. where functional $J_{f}(x) := \sqrt{\bigg |\det \bigg ( \frac{\partial f}{\partial x}^T \frac{\partial f}{\partial x} \bigg ) \bigg|}$
 
-$D$ and $I$ are refering to the domain and image of the functions respectivly, and typically $D \sub \mathbb{R}^m$ and $I \sub \mathbb{R}^n$. There is no unique solution as the equation only restricts the $g$ in one dimension. Hence, some assumptions or decisions will need to be made about the function $g$ to be able to solve the equation (see the example section).
-## Abstract 
+$D$ and $I$ are refering to the domains and images of the functions, where $D \subset \mathbb{R}^m$ and $I \subset \mathbb{R}^n$. Often the solution to 5. can be found by doing a separation of variables, integrating, and then finding the inverse. Example of soutions can be found in the *Examples* section.
+## Background - Why are we doing this?
+
+When sampling points from some sort of geometrical object, I often want to do so uniformly, e.g. "*Pick a random point from a sphere.*". For a sphere, this is not that hard to do with, for example, rejection sampling. However, I was playing around with the spiral dataset (typically use in ML), where my *ad-hoc* approach of sampling the points, gave a large bias for the points close to the center. Rejection sampling in this sceneario is impossible (1D manifold embedded in 2D and all...), and hence we need another solution. Basically what we want is, given a function and a domain, how can we alter the function, such that the resulting image is uniformly dense when sampling uniformly from the domain.
+The approach we will take in this repo, is to find a new function which maps from the domain to  itself in such a way that the final image has a uniform density (see header image).
+
+## Problem Formulation
+Let $f: x \mapsto y$ be the given *ad-hoc* function with a domain $D \subset \mathbb{R}^m$ and image  $I \subset \mathbb{R}^n$. We are then looking for $g: x \mapsto x'$, such that $g(D) = D$ and ... $f(g(D))$ is uniform? We should probably find a more precise way of describing this. 
+Let's introduce a function $h=f \circ g$, and look at a region in $D' \subset D$. This region will have an area $\int_{D'}d|x|$, which will be some proportion of the total area $\int_Dd|x|$. Let us now transform $D' \mapsto I'$ using $h$. This image will have new area $\int_{I'} d|h|$. What we are looking for in $h$ is the property that no matter what subset $D'$ we choose, the resulting image should have the same area proportional to the total area in the domain and image respectivly. E.g. if $D'$ takes up half of the domain, it should take up half of the image. This gives us the following equation:
+
+
+$$
+   \frac{ \int_{I'} d|h|}{\int_{I} d|h|}  = \frac{ \int_{D'} d|x| }{\int_{D} d|x|}, \quad \forall D' \subseteq D, \quad \text{where } h(D')=I'  
+$$
+
+As stated above, this must be true for all $D'$. If we then chooses a sufficiently small $D'$ around the point $x$ ($D_x'$), and then abuse the notation a bit, we get: $|D| \cdot d|h| = |I|\cdot d|x|$ where $|D|$ and $|I|$ are the areas of the domain and image respectivly. The final step is the to specify exactly what we mean be $d|x|$ and $d|h|$. 
+
+Before we dive into that question, let's talk about the area/volume of a simpler object: the parallelotope. This is the object you get by combining a set of vectors and has the nice property that the signed volume is equal to the determinant of these vectors. However, if your parallelotope is of dimension $m$, where as your vectors are of dimension $n>m$, the resulting determinant, which is now meassuring the $n$-volume, will not be defined as we no longer have a square matrix. In these cases, we can instead use the square root of the so-called *Gram determinant*. Given the set of real vectors $V$, the Gram determinant is defined as $|\det V^TV|$, which gives us the squared volume.
+
+Now, let's get back to our problem. $d|x|$ represent an area element in $D$, and can be seen as the limit of $D_(x_0)'$, as the area goes to zero. 
+
+
+
+
+## Examples
+
+### Disc
+
+### Spiral
+
+
+
 
 When sampling points from a multidimensional distribution, it is often the case that one wants the points to be uniformly sampled from the multidimisional geometry body given. Howerver, the kanonical way of sampling from the body is usually not uniform. For example, sampling points from a disk can be done by drawing two points from a uniform distribution where the first points represent the radius of the the point, and the seconde the angle. The strategy ensures that all the drawn points are drawn from the disk, however, the sampling desnity will be greater in the center of the disk then in the outer parts.
 
