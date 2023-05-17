@@ -39,16 +39,18 @@ $$
 Note that $\hat A$ denotes the matrix containing the basisi vectors $\hat a$ and has a determinant of $1$ as all the vectors are orthonormal.
 
 We can do a similiar thing for the transformed version of the vector and get $F(a_0 + da_i \cdot \hat a_i) - F(a_0)$. We can nolonger carry out the subtraction, but what we can do is divide and multiply by $da_i$ which gives us the definition for the partial derivative.
+
 $$
 F(a_0 + da_i \cdot \hat a_i) - F(a_0) = \frac{F(a_0 + da_i \cdot \hat a_i) - F(a_0)}{da_i}da_i = \frac{\partial F}{\partial a_i}da_i
 $$
 
 Carying out a similir argument for the image's parallelotope we get:
+
 $$
     \bigg| \det \bigg (\frac{\partial F}{\partial a_i} \text{diag}[da_1, ..., da_m] \bigg )\bigg |= \bigg | \det \bigg ( \frac{\partial F}{\partial a_i} \bigg ) \bigg | d|a|=:d|F|
 $$
 
-<img src="./media/vector_transformation.png" width="800">
+<img src="./media/vector_transformation.png" width="700">
 
 Now, let's get back to our problem. From the above explination, we can see that our domain area elemtn $d|x|$ quite easily reduces to $\Pi dx_i|$. Similarly $d|h|= \big| \det \frac{\partial h}{\partial x}\big| d|x|$. Now using the chain rule on the partial derivative gives us $d|h|= \big| \det \frac{\partial h}{\partial x'}\big| \big| \det \frac{\partial x'}{\partial x}\big| d|x|$. Or if $m\not = n$:
 
@@ -56,6 +58,7 @@ $$d|h|= \sqrt{\det \frac{\partial h}{\partial x'}^T\frac{\partial h}{\partial x'
 $$
 
 Substituting the expanded differential forms into our previous equation gives the final equation:
+
 $$
  \begin{matrix}
     &|D| \cdot d|h| &= |I|\cdot d|x| & \Leftrightarrow \\
