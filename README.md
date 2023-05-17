@@ -51,7 +51,10 @@ $$
 $$
 
 
-<img src="./media/vector_transformation.png" width="700">
+<p align="center">
+  <img src="./media/vector_transformation.png" width="700" />
+</p>
+
 
 Now, let's get back to our problem. From the above explination, we can see that our domain area elemtn $d|x|$ quite easily reduces to $\Pi dx_i|$. Similarly $d|h|= \big| \det \frac{\partial h}{\partial x}\big| d|x|$. Now using the chain rule on the partial derivative gives us $d|h|= \big| \det \frac{\partial h}{\partial x'}\big| \big| \det \frac{\partial x'}{\partial x}\big| d|x|$. Or if $m\not = n$:
 
