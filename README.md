@@ -50,6 +50,7 @@ $$
     \bigg| \det \bigg (\frac{\partial F}{\partial a_i} \text{diag}[da_1, ..., da_m] \bigg )\bigg |= \bigg | \det \bigg ( \frac{\partial F}{\partial a_i} \bigg ) \bigg | d|a|=:d|F|
 $$
 
+
 <img src="./media/vector_transformation.png" width="700">
 
 Now, let's get back to our problem. From the above explination, we can see that our domain area elemtn $d|x|$ quite easily reduces to $\Pi dx_i|$. Similarly $d|h|= \big| \det \frac{\partial h}{\partial x}\big| d|x|$. Now using the chain rule on the partial derivative gives us $d|h|= \big| \det \frac{\partial h}{\partial x'}\big| \big| \det \frac{\partial x'}{\partial x}\big| d|x|$. Or if $m\not = n$:
@@ -59,14 +60,15 @@ $$
 
 Substituting the expanded differential forms into our previous equation gives the final equation:
 
+
 $$
- \begin{matrix}
+ \begin{align*}
     &|D| \cdot d|h| &= |I|\cdot d|x| & \Leftrightarrow \\
     \\
     &|D| \sqrt{\det \frac{\partial h}{\partial x'}^T\frac{\partial h}{\partial x'}} \cdot \bigg | \det \bigg( \frac{\partial x'}{\partial x}\bigg ) \bigg | d|x| &= |I|\cdot d|x| & \Leftrightarrow \\
     \\
     &\sqrt{\det \frac{\partial h}{\partial x'}^T\frac{\partial h}{\partial x'}} \cdot \bigg | \det \bigg( \frac{\partial x'}{\partial x}\bigg ) \bigg | |D|  &= |I| \quad \quad \text{    }&\\
- \end{matrix}
+ \end{align*}
 $$
 
 
