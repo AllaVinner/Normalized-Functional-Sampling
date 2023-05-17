@@ -130,6 +130,55 @@ Implementing this on an actual sampler gives the following results where the abo
 </p>
 
 ### Spiral
+The spiral example is the actual problem I wanted to solve. Here we have an *ad-hoc* function $f(t)=(t\cos(at+\delta),t\sin(a\t+\delta))^T$ with the domain $D=[0, T]$. 
+
+$$
+\begin{align*}
+    \frac{d f}{d t} &= 
+    \begin{pmatrix}
+        \cos(at+\delta)-ta\sin(at+\delta) \\
+        \sin(at+\delta)+ta\cos(at+\delta)   
+    \end{pmatrix} \\
+    \bigg | \det \frac{d f}{d t'}^T\frac{d f}{d t'} \bigg | &= \sqrt{(1+(at')^2} \\
+    |D| &= T \\
+    |I| &= \int_0^T \sqrt{(1+(at)^2} dt \\
+    \bigg | \det \frac{\partial t' }{\partial t} \bigg | &= \bigg | \frac{\partial t' }{\partial t} \bigg | \\
+\end{align*}
+$$
+
+Giving us the equation:
+
+$$
+\begin{align*}
+    \sqrt{a+(at')^2}\frac{dt'}{dt}=\frac{|I|}{T} \\
+    \sqrt{a+(at')^2}dt'=\frac{|I|}{T}dt \\
+    L_a(t')=\frac{|I|}{T}t+C \\
+    t'=L_a^{-1} \bigg (\frac{|I|}{T}t+C \bigg ) \\
+\end{align*}
+$$
+
+Here $L_a$ is the antiderivative to $\sqrt{1+ax^2}$ which is not very nice looking, and its derivative I haven't even found in close formed. However, since the integrand is constantly positive, the inverse most exist and be unique. Furthermore, we can see that $L_a(T)=|I|$ together with $t'(t=T)=T$, means that $C=0$, giving us our $g_a(t)=t'(t)=L_a^{-1} \bigg (\frac{L_a(T)}{T}t\bigg )$. Putting this into our $h$ gives us a uniform sampling function for a spiral.
+
+$$
+    h_a(t) = \begin{bmatrix}
+        g_a(t) \cos \big (ag_a(t)+\delta \big ) \\
+        g_a(t) \sin \big (ag_a(t)+\delta\big) 
+    \end{bmatrix}
+$$
 
 
+Again implementing this on a real sampler, this time with a couple numerical approximations of the $L^{-1}$, gives us the result. The first image is the final samples (with and without the normalization). The second image shows the histogram of the density as we go along the curve of the spiral. This was the whole goal of this repo, to flatten this curve. The final image show the difference in density in the domain.
 
+
+<p align="center">
+  <img src="./media/spiral_distribution.png" width="700" />
+</p>
+
+
+<p align="center">
+  <img src="./media/spiral_histo_distribution.png" width="700" />
+</p>
+
+<p align="center">
+  <img src="./media/spiral_histo_domain_distribution.png" width="700" />
+</p>
