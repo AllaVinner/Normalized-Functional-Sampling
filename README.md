@@ -109,15 +109,25 @@ $$
 $$
 
 Adding the constraint that $r'(0)=0$ forces $C=0$.
+
 $$
 g(r, \theta) = (\sqrt{rR}, \theta)
 $$
 
 And our final function:
+
 $$
     h(r, \theta) = (\sqrt{rR}\cos \theta, \sqrt{rR}\sin \theta)^T
 $$
 
+Implementing this on an actual sampler gives the following results where the above image shows the final sampling, and the lower the intermediate step after just the $g$ transformation.
+
+<p align="center">
+  <img src="./media/disk_sampling.png" width="700" />
+</p>
+<p align="center">
+  <img src="./media/disk_domain_sampling.png" width="700" />
+</p>
 
 ### Spiral
 
