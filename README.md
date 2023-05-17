@@ -4,6 +4,8 @@
 ## Strategy 
 <img align="right" src="./media/header_image.png" width="450" style="padding-left:20px">
 
+How can we transform a non uniform sampling method to a uniform one?
+
 1. Given a function $f: x \mapsto y$
 2. find $g: x \mapsto x'$
 3. where $D_g=I_g=D_f$
@@ -130,7 +132,7 @@ Implementing this on an actual sampler gives the following results where the abo
 </p>
 
 ### Spiral
-The spiral example is the actual problem I wanted to solve. Here we have an *ad-hoc* function $f(t)=(t\cos(at+\delta),t\sin(a\t+\delta))^T$ with the domain $D=[0, T]$. 
+The spiral example is the actual problem I wanted to solve. Here we have an *ad-hoc* function $f(t)=(t\cos(at+\delta),t\sin(at+\delta))^T$ with the domain $D=[0, T]$. 
 
 $$
 \begin{align*}
@@ -157,7 +159,7 @@ $$
 \end{align*}
 $$
 
-Here $L_a$ is the antiderivative to $\sqrt{1+ax^2}$ which is not very nice looking, and its derivative I haven't even found in close formed. However, since the integrand is constantly positive, the inverse most exist and be unique. Furthermore, we can see that $L_a(T)=|I|$ together with $t'(t=T)=T$, means that $C=0$, giving us our $g_a(t)=t'(t)=L_a^{-1} \bigg (\frac{L_a(T)}{T}t\bigg )$. Putting this into our $h$ gives us a uniform sampling function for a spiral.
+Here $L_a$ is the antiderivative to $\sqrt{1+a^2x^2}$ which is not very nice looking, and its derivative I haven't even found in close formed. However, since the integrand is constantly positive, the inverse most exist and be unique. Furthermore, we can see that $L_a(T)=|I|$ together with $t'(t=T)=T$, means that $C=0$, giving us our $g_a(t)=t'(t)=L_a^{-1} \bigg (\frac{L_a(T)}{T}t\bigg )$. Putting this into our $h$ gives us a uniform sampling function for a spiral.
 
 $$
     h_a(t) = \begin{bmatrix}
