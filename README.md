@@ -12,7 +12,7 @@
 6. where functional $J_{f}(x) := \sqrt{\bigg |\det \bigg ( \frac{\partial f}{\partial x}^T \frac{\partial f}{\partial x} \bigg ) \bigg|}$
 
 $D$ and $I$ are refering to the domains and images of the functions, where $D \subset \mathbb{R}^m$ and $I \subset \mathbb{R}^n$. Often the solution to 5. can be found by doing a separation of variables, integrating, and then finding the inverse. Example of soutions can be found in the *Examples* section.
-## Background - Why are we doing this?
+## Background
 
 When sampling points from some sort of geometrical object, I often want to do so uniformly, e.g. "*Pick a random point from a sphere.*". For a sphere, this is not that hard to do with, for example, rejection sampling. However, I was playing around with the spiral dataset (typically use in ML), where my *ad-hoc* approach of sampling the points, gave a large bias for the points close to the center. Rejection sampling in this sceneario is impossible (1D manifold embedded in 2D and all...), and hence we need another solution. Basically what we want is, given a function and a domain, how can we alter the function, such that the resulting image is uniformly dense when sampling uniformly from the domain.
 The approach we will take in this repo, is to find a new function which maps from the domain to  itself in such a way that the final image has a uniform density (see header image).
@@ -77,66 +77,49 @@ $$
 
 
 ## Examples
-
+Some examples 
 ### Disc
+This is a classical example. We want to sample points from a disc of radius $R$, but sampling the radius and the angle independently will give a bias in favour of the points closer to the center. 
+Translating this scenario to our new approach would mean that $D=[0, R] \times [0, 2\pi]$ and our *ad-hoc* function $f(r, \theta)=(r\cos \theta, r\sin \theta)^T$.
+Pluggin this into our strategy gives:
+
+$$
+\begin{align*}
+    \frac{\partial f}{\partial (r', \theta')} &= 
+    \begin{pmatrix}
+        \cos \theta & -r\sin \theta \\
+        \sin \theta & r \cos \theta     
+    \end{pmatrix} \\
+    \bigg | \det \frac{\partial f}{\partial (r', \theta')} \bigg | &= r' \\
+    |D| &= 2\pi R \\
+    |I| &= \pi R^2 \\
+    \bigg | \det \frac{\partial(r', \theta') }{\partial (r, \theta)} \bigg | &= \bigg | \frac{\partial r'}{\partial r}\frac{\partial \theta ' }{\partial \theta} - \frac{\partial r'}{\partial \theta}\frac{\partial \theta'}{\partial r} \bigg | \\
+\end{align*}
+$$
+
+Given the radius, there should be no bias for any particular angle, and we will hence set $\theta ' (r, \theta) = \theta$, leaving us with the equation:
+
+$$
+\begin{align*}
+    r' \frac{\partial r'}{\partial r} &= \frac{\pi R^2}{2\pi R}= \frac{R}{2} \\
+    r' d r'&= \frac{R}{2} dr \\
+    \frac{(r')^2}{2} &= \frac{R}{2}r +C \\
+    r' &= \sqrt{Rr +C} \\
+\end{align*}
+$$
+
+Adding the constraint that $r'(0)=0$ forces $C=0$.
+$$
+g(r, \theta) = (\sqrt{rR}, \theta)
+$$
+
+And our final function:
+$$
+    h(r, \theta) = (\sqrt{rR}\cos \theta, \sqrt{rR}\sin \theta)^T
+$$
+
 
 ### Spiral
-
-
-
-
-When sampling points from a multidimensional distribution, it is often the case that one wants the points to be uniformly sampled from the multidimisional geometry body given. Howerver, the kanonical way of sampling from the body is usually not uniform. For example, sampling points from a disk can be done by drawing two points from a uniform distribution where the first points represent the radius of the the point, and the seconde the angle. The strategy ensures that all the drawn points are drawn from the disk, however, the sampling desnity will be greater in the center of the disk then in the outer parts.
-
-
-
-
-
-The equation can be split up into two constraits. The first is a global one which simply restricts the function not to move points out of the domain: $g(D)=D$. The second one is a local restriction which states that the density change introduced by $f$ must be compensated for by $g$ at every point, so that the the combined density change equals the ratio between the domain and image volumes. 
-
-
-## Problem Formulation
-Let $g$ be a naive generating function from $T \sub R^m$ to $X\sub R^n$. For our generating function to behave nicely, we would like it to fullfill:
-
-$$
-   \frac{ \int_{X'} d|x|^m}{\int_{X} d|x|^m}  = \frac{ \int_{T'} d|t| }{\int_{T} d|t|}  
-$$
-
-The $d|t|$ syntax, refferce to the measure unit in $T$, for a normal euclidean space this is simply $\Pi dt_i$. In a similar way $d|x|^m$ refferce to the $m$-dimensional measure in $X$. For example, if $m=2$, and $n=3$, $d|x|^m$ is the area unit in 3-dimensional space. $T'$ is an arbitrary subset of $T$, and $X'=g(T')$.
-The equation then expresses that for an arbitrary subset $T'$ of the domain, $T'$ takes up the same amount of the 'space' as a ratio of the whole set in the domain and in the image. 
-
-## Example Problem
-A typical example of this issue arise if we want to sample uniformly from a disk. A straight forward way of sample the points is to uniformly sample a radius $r \in [0, R]$, and an angle $\alpha \in [0, 2\pi]$. Doing so generates points in the desired disk, but with a non-uniform density. Image XXX a shows an example of 1000 generated points using this strategy, whereas the b shows the desired density distribution. To reffer back to the problem formulation, $g: [0, R] \times [0, 2\pi] \rightarrow \mathbb{R}^2$, with $T= [0, R] \times [0, 2\pi] \in \mathbb{R}^2$. And more precisly:
-$$
-g(r,\alpha) = 
-\begin{pmatrix}
-    r \cos(\alpha) \\
-    r \sin(\alpha)
-\end{pmatrix}
-$$
-
-Putting the data into problem formulation equation and we get:
-$$
-\begin{align}
-    \int_{X'}d|x|^m &= \int_{T'} \bigg |\frac{\partial g}{\partial t} \bigg | d|t|   =  \int_{T'}  drd\alpha \\
-    \int_{X} d|x|^m &= \pi R^2 \\
-    \int_{T'} d|t| &= \int_{T'} r drd\alpha \\  
-    \int_{T} d|t| &= 2\pi R \\
-    \Rightarrow \\
-    0 &= \int_{T'} r - \frac{R}{2} drd\alpha \quad \text{Not solvable!}
-
-\end{align}
-$$
-
-## Solution Derivation
-Lets do the same process as in the example process, but with out assuming anything about the jacobian.
-
-$$
-\begin{align}
-    
- 0 &= \int_{T'} \bigg | \frac{\partial g}{\partial t} \bigg | - \frac{|X|}{|T|} d|t|, \quad \forall T' \sub T \Rightarrow \\
- 0 &= \bigg | \frac{\partial g}{\partial t} \bigg | - \frac{|X|}{|T|}
-\end{align}
-$$
 
 
 
