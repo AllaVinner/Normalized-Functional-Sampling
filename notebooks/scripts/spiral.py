@@ -4,18 +4,6 @@ import numpy as np
 
 
 class Spiral():
-    """
-    Example:
-        >>>spiral = Spiral()
-        >>>
-        >>>N = 10000
-        >>>original_domain = np.random.random(N)
-        >>>altered_domain = spiral.alter_samples(original_domain)
-        >>>original_image = spiral(domain)
-        >>>normalized_image = spiral(original_image)
-        >>>original_length = spiral.length_at_input(domain)
-        >>>normalized_length = spiral.length_at_input(altered_domain)
-    """
 
     def __init__(self, 
                  initial_angle:float=0., 
@@ -25,7 +13,7 @@ class Spiral():
         self.initial_angle = initial_angle
         self.angular_frequency = angular_frequency
         self.t_max = t_max
-        self.length = self.length_at_input(self.t_max)
+        self.length = self.length_at(self.t_max)
         self.domain = [0, self.t_max]
 
     def __call__(self, t, *args, **kwargs):
@@ -38,18 +26,19 @@ class Spiral():
         altered_samples = self.alter_samples(samples)
         return self(altered_samples)
 
-    def alter_samples(self, samples):
-        alterd_samples = np.array([self.input_at_length(self.length/self.t_max*sample) for sample in samples])
+    def alter_sample(self, samples):
+        spiral_length = self.length_at_position(self.t_max)
+        alterd_samples = self.position_at_length(spiral_length/self.t_max*alterd_samples)
         return alterd_samples
 
-    def length_at_input(self, t):
+    def length_at_position(self, t):
         a = self.angular_frequency
         return 1/2*t*(np.sqrt(1+(a*t)**2))+1/(2*a)*np.log(a*t+np.sqrt(1+(a*t)**2))
 
-    def input_at_length(self, l: float) -> float:
-        return self._inv_value(self.length_at_input, target_value=l, min_guess=0, max_guess=self.t_max)
+    def position_at_length(self, l: float) -> float:
+        return self._inv_value(self.length_at, target_value=l, min_guess=0, max_guess=self.t_max)
 
-    @staticmethod
+
     def _inv_value(f: Callable, target_value: float, min_guess: float, max_guess: float, num_guesses: int = 50) -> float:
         x_guess = (max_guess + min_guess)/2
         for _ in range(num_guesses):
@@ -62,3 +51,12 @@ class Spiral():
                 x_guess = (min_guess + x_guess)/2
 
         return x_guess
+
+
+
+
+
+
+
+
+
