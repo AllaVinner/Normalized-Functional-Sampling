@@ -142,7 +142,7 @@ $\beta'= \sqrt{\beta +C} \Leftrightarrow$
 
 $\big /  \beta(0) = 0 \Rightarrow C = 0 / \big /  \Leftrightarrow$
 
-$\beta' = \sqrt{\beta} \Rightarrow$
+$\beta' = g(\beta) = \sqrt{\beta} \Rightarrow$
 
 $h(\alpha, \beta) = f(\alpha', \beta')= \sqrt{\beta} \bar v + \alpha  \sqrt{\beta} (\bar u - \bar v)$
 
